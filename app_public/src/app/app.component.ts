@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MeanDataService } from './mean-data.service';
+import { MeanDataService } from './model/mean-data.service';
  
 @Component({
   selector: 'app-root',
