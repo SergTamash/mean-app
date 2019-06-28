@@ -1,18 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
-import { AuthenticationService } from './authentication.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthenticationService } from './authentication.service';
+
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, RegisterComponent],
   imports: [
     FormsModule,
     CommonModule,
-    MatInputModule
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule
   ],
-  exports: [LoginComponent],
+  exports: [LoginComponent, RegisterComponent],
   providers: [AuthenticationService]
 })
 export class AuthModule { }
