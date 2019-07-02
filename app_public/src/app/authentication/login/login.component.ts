@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
+import { FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,42 +9,31 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) { }
-
-  // public credentials = {
-  //   name: 'sergini',
-  //   email: 'sergini@gmail.com',
-  //   password: 'sergini'
-  // };
-
-  public formError: string = '';
-
-  public credentials = {
-    email: '',
-    password: ''
-  };
+  constructor(private authenticationService: AuthenticationService, private fb: FormBuilder) { }  
 
   ngOnInit() {
     
   }
+  public hidePassword: boolean = true;
 
-  public onLoginSubmit(): void {
-    this.formError = '';
-    if (!this.credentials.email || !this.credentials.password) {
-      this.formError = 'All fields are required, please try again';
-    } else {
-      this.login();
-    }
+  public togglePassword(event): void {
+    event.preventDefault(); 
+    this.hidePassword = !this.hidePassword;
+  }
+
+  public loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]]
+  }) 
+
+  public onSubmit(): void {
+    if (this.loginForm.invalid) return;
+
+    this.login();    
   }
 
   private login(): void {
-    this.authenticationService.login(this.credentials)
-      .then(() => console.log("Ura"))
-      .catch((errMessage) => console.log(errMessage))                                
-  }
-
-  private register(): void {
-    this.authenticationService.register(this.credentials)
+    this.authenticationService.login(this.loginForm.value)
       .then(() => console.log("Ura"))
       .catch((errMessage) => console.log(errMessage))                                
   }
@@ -51,5 +41,4 @@ export class LoginComponent implements OnInit {
   public logout(): void {
     this.authenticationService.logout();
   }
-
 }
