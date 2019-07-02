@@ -1,6 +1,36 @@
-<div>
-  <mat-form-field>
-    <input matInput placeholder="Enter your email" [formControl]="email" required>
-    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-  </mat-form-field>
+<div class="container">   
+  <div class="row">
+      <div class="col"></div>
+      <div class="col-6">
+          <h1>Register form</h1> 
+          <p class="lead">Already a member? Please <a routerLink="/login">log in</a> instead</p>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+              <input matInput placeholder="Enter your email" formControlName="email" required>
+              <mat-error *ngIf="registerForm.controls['email'].errors?.required">this field required</mat-error>
+              <mat-error *ngIf="registerForm.controls['email'].errors?.email">Not a valid email</mat-error>
+            </mat-form-field>   
+        
+            <mat-form-field>
+              <input matInput placeholder="Enter your password" formControlName="password" [type]="hidePassword ? 'password' : 'text'" required>
+              <button mat-icon-button matSuffix (click)="togglePassword($event)" type=“button”>
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="registerForm.controls['password'].errors?.required">this field required</mat-error>    
+            </mat-form-field>
+        
+            <mat-form-field>
+              <input matInput placeholder="Enter your name" formControlName="name" required>
+              <mat-error *ngIf="registerForm.controls['name'].errors?.required">this field required</mat-error>
+            </mat-form-field>
+        
+            <mat-form-field>
+              <input matInput placeholder="Enter your address" formControlName="address">
+            </mat-form-field> 
+          
+            <button type="submit" role="button" class="btn btn-primary" [disabled]="registerForm.invalid">Register!</button>
+          </form>
+      </div> 
+      <div class="col"></div>
+  </div>      
 </div>

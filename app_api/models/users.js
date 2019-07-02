@@ -12,8 +12,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-        hash: String,
-        salt: String
+    address: String,
+    hash: String,
+    salt: String
 });
 
 userSchema.methods.setPassword = (password) => {

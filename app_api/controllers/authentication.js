@@ -11,6 +11,7 @@ const register = (req, res) => {
     const user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
+    user.address = req.body.address;
     user.setPassword(req.body.password);
     user.save((err) => {
         if (err) {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import { FormBuilder, Validators} from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -8,17 +9,34 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  public hidePassword: boolean = true;
 
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-        this.email.hasError('email') ? 'Not a valid email' :
-            '';
+  public togglePassword(event): void {
+    event.preventDefault(); 
+    this.hidePassword = !this.hidePassword;
   }
 
+  public registerForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    name: ['', Validators.required],
+    address: ['']
+  })  
+
+  public onSubmit() {
+    if (this.registerForm.invalid) return;
+    
+    this.authenticationService.register(this.registerForm.value)
+      .then(() => {
+
+      })
+      .catch(() => {
+
+      })
+  }
 }
