@@ -14,12 +14,11 @@ export class MeanDataService {
     private http: HttpClient,
     @Inject(BROWSER_STORAGE) private storage: Storage
   ) { }
-  
 
   private apiBaseUrl = 'http://localhost:3000/api';
 
   public testRequest(): Observable<any> {
-    const url: string = `${this.apiBaseUrl}`;
+    const url = `${this.apiBaseUrl}`;
     return this.http
       .get(url, {responseType: 'text'})
       // .toPromise()
@@ -33,19 +32,19 @@ export class MeanDataService {
   }
 
   public login(user: User): Promise<AuthResponse> {
-    const url: string = `${this.apiBaseUrl}/login`;
+    const url = `${this.apiBaseUrl}/login`;
     return this.http
               .post(url, user)
               .toPromise()
               .then(res => res as AuthResponse) 
-              .catch(this.handleError)
+              .catch(this.handleError);
   }
   public register(user: User): Promise<AuthResponse> {
-    const url: string = `${this.apiBaseUrl}/register`;
+    const url = `${this.apiBaseUrl}/register`;
     return this.http
               .post(url, user)
               .toPromise()
               .then(res => res as AuthResponse) 
-              .catch(this.handleError)
+              .catch(this.handleError);
   }
 }

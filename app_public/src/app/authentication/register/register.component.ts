@@ -11,23 +11,22 @@ export class RegisterComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private authenticationService: AuthenticationService) { }
 
-  ngOnInit() {
-  }
-
-  public hidePassword: boolean = true;
-
-  public togglePassword(event): void {
-    event.preventDefault(); 
-    this.hidePassword = !this.hidePassword;
-  }
-
+  public hidePassword = true;
   public registerForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     name: ['', Validators.required],
     address: ['']
-  })  
+  })
+  
+  ngOnInit() {
+  }  
 
+  public togglePassword(event): void {
+    event.preventDefault();
+    this.hidePassword = !this.hidePassword;
+  }
+  
   public onSubmit() {
     if (this.registerForm.invalid) return;
     
@@ -38,5 +37,5 @@ export class RegisterComponent implements OnInit {
       .catch(() => {
 
       })
-  }
+  };
 }

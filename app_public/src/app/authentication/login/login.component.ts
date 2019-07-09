@@ -9,33 +9,33 @@ import { FormBuilder, Validators} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService, private fb: FormBuilder) { }  
+  public hidePassword = true;
 
-  ngOnInit() {
-    
-  }
-  public hidePassword: boolean = true;
-
-  public togglePassword(event): void {
-    event.preventDefault(); 
-    this.hidePassword = !this.hidePassword;
-  }
+  constructor(private authenticationService: AuthenticationService, private fb: FormBuilder) { }
 
   public loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]]
-  }) 
+  });
+
+  ngOnInit() {
+  }
+
+  public togglePassword(event): void {
+    event.preventDefault();
+    this.hidePassword = !this.hidePassword;
+  }
 
   public onSubmit(): void {
     if (this.loginForm.invalid) return;
 
-    this.login();    
+    this.login();
   }
 
   private login(): void {
     this.authenticationService.login(this.loginForm.value)
-      .then(() => console.log("Ura"))
-      .catch((errMessage) => console.log(errMessage))                                
+      .then(() => console.log('Ura'))
+      .catch((errMessage) => console.log(errMessage));
   }
 
   public logout(): void {

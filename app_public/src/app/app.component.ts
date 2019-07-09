@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MeanDataService } from './model/mean-data.service';
- 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,11 +10,10 @@ export class AppComponent {
   constructor(private meanDataService: MeanDataService) {
 
   }
+  title = 'app-public';
   public testCall(): void {
     this.meanDataService.testRequest().subscribe((res) => {
-      debugger;
       console.log(res);
     });
   }
-  title = 'app-public';
 }
