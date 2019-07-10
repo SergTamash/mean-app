@@ -10,7 +10,6 @@ export class AppComponent {
   constructor(private meanDataService: MeanDataService) {
 
   }
-  title = 'app-public';
   public testCall(): void {
     this.meanDataService.testRequest().subscribe((res) => {
       console.log(res);

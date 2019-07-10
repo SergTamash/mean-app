@@ -3,14 +3,17 @@ import { BROWSER_STORAGE } from '../model/storage';
 import { User } from '../model/user';
 import { AuthResponse } from '../model/authresponse';
 import { MeanDataService } from '../model/mean-data.service';
+import { Observable } from 'rxjs';
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class AuthenticationService {
 
   constructor(
     @Inject(BROWSER_STORAGE) private storage: Storage,
-    private meanDataService: MeanDataService
-  ) { }
+    private meanDataService: MeanDataService) { 
+     
+    }
 
   public getToken(): string {
     return this.storage.getItem('mean-token');
@@ -20,14 +23,28 @@ export class AuthenticationService {
     this.storage.setItem('mean-token', token);
   }
 
-  public login(user: User): Promise<any> {
+  public login(user: User): Observable<AuthResponse> {
     return this.meanDataService.login(user)
-      .then((authResp: AuthResponse) => this.saveToken(authResp.token));
+            .pipe(
+              map(
+                (resp: AuthResponse) => {
+                  this.saveToken(resp.token);
+                  return resp;
+                }
+              )
+            );
   }
 
-  public register(user: User): Promise<any> {
+  public register(user: User): Observable<AuthResponse> {
     return this.meanDataService.register(user)
-      .then((authResp: AuthResponse) => this.saveToken(authResp.token));
+            .pipe(
+              map(
+                (resp: AuthResponse) => {
+                  this.saveToken(resp.token);
+                  return resp;
+                }
+              )
+            );
   }
 
   public logout(): void {

@@ -27,15 +27,19 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.loginForm.invalid) return;
-
+    if (this.loginForm.invalid) {
+      return;
+    }
     this.login();
   }
 
   private login(): void {
     this.authenticationService.login(this.loginForm.value)
-      .then(() => console.log('Ura'))
-      .catch((errMessage) => console.log(errMessage));
+      .subscribe((resp) => {
+
+      }, (error) => {
+        console.error(error.message);
+      });
   }
 
   public logout(): void {

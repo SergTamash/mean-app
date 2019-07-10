@@ -1,50 +1,57 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { User } from './user';
 import { BROWSER_STORAGE } from './storage';
 import { AuthResponse } from './authresponse';
 
-@Injectable({
-  providedIn: 'root'
-})
+const PROTOCOL = 'http';
+const PORT = 3000;
+
+@Injectable()
 export class MeanDataService {
 
   constructor(
     private http: HttpClient,
-    @Inject(BROWSER_STORAGE) private storage: Storage
-  ) { }
+    @Inject(BROWSER_STORAGE) private storage: Storage) {
+      this.apiBaseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api`;
+  }
 
-  private apiBaseUrl = 'http://localhost:3000/api';
+  private apiBaseUrl: string;
 
   public testRequest(): Observable<any> {
     const url = `${this.apiBaseUrl}`;
     return this.http
-      .get(url, {responseType: 'text'})
-      // .toPromise()
-      // .then(response => response)
-      // .catch(this.handleError);
+      .get(url, {responseType: 'text'});
   }
 
-  private handleError(error: any): Promise<any> {
+  private handleErrorPromise(error: any): Promise<any> {
     console.error('Something has gone wrong', error);
     return Promise.reject(error.message || error);
   }
 
-  public login(user: User): Promise<AuthResponse> {
+  private handleError(error: HttpErrorResponse): Observable<Object> {
+    console.error('Something has gone wrong', error);
+    return throwError(error.error || error);
+  };
+
+  public login(user: User): Observable<AuthResponse | Object> {
     const url = `${this.apiBaseUrl}/login`;
     return this.http
-              .post(url, user)
-              .toPromise()
-              .then(res => res as AuthResponse) 
-              .catch(this.handleError);
+            .post<AuthResponse>(url, user)
+            .pipe(
+              catchError(this.handleError)
+            );
   }
-  public register(user: User): Promise<AuthResponse> {
+
+  public register(user: User): Observable<AuthResponse | Object> {
     const url = `${this.apiBaseUrl}/register`;
     return this.http
-              .post(url, user)
-              .toPromise()
-              .then(res => res as AuthResponse) 
-              .catch(this.handleError);
+            .post<AuthResponse>(url, user)
+            .pipe(
+              catchError(this.handleError)
+            );
   }
 }
