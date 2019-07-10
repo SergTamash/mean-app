@@ -32,6 +32,7 @@ const register = (req, res) => {
     }
     passport.authenticate('local', (err, user, info) => {
         if (err) {
+            
             return res.status(404)
                       .json(err);
         }

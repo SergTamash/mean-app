@@ -4,15 +4,15 @@ import { User } from '../model/user';
 import { AuthResponse } from '../model/authresponse';
 import { MeanDataService } from '../model/mean-data.service';
 import { Observable } from 'rxjs';
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationService {
 
   constructor(
     @Inject(BROWSER_STORAGE) private storage: Storage,
-    private meanDataService: MeanDataService) { 
-     
+    private meanDataService: MeanDataService) {
+
     }
 
   public getToken(): string {

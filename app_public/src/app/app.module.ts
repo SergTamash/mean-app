@@ -10,11 +10,13 @@ import { AuthModule } from './authentication/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModulesCompilationModule } from './common/modules-compilation.module';
 import { ModelModule } from './model/model.module';
+import { HomepageComponent } from './homepage/homepage.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

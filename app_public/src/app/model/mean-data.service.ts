@@ -32,12 +32,12 @@ export class MeanDataService {
     return Promise.reject(error.message || error);
   }
 
-  private handleError(error: HttpErrorResponse): Observable<Object> {
+  private handleError(error: HttpErrorResponse): Observable<object> {
     console.error('Something has gone wrong', error);
     return throwError(error.error || error);
-  };
+  }
 
-  public login(user: User): Observable<AuthResponse | Object> {
+  public login(user: User): Observable<AuthResponse | object> {
     const url = `${this.apiBaseUrl}/login`;
     return this.http
             .post<AuthResponse>(url, user)
@@ -46,7 +46,7 @@ export class MeanDataService {
             );
   }
 
-  public register(user: User): Observable<AuthResponse | Object> {
+  public register(user: User): Observable<AuthResponse | object> {
     const url = `${this.apiBaseUrl}/register`;
     return this.http
             .post<AuthResponse>(url, user)

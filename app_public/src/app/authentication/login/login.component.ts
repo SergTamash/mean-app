@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,11 @@ export class LoginComponent implements OnInit {
 
   public hidePassword = true;
 
-  constructor(private authenticationService: AuthenticationService, private fb: FormBuilder) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   public loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -36,7 +41,7 @@ export class LoginComponent implements OnInit {
   private login(): void {
     this.authenticationService.login(this.loginForm.value)
       .subscribe((resp) => {
-
+        this.router.navigateByUrl('');
       }, (error) => {
         console.error(error.message);
       });

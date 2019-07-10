@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,11 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private authenticationService: AuthenticationService) { }
+  constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) { }
 
   public hidePassword = true;
   public registerForm = this.fb.group({
@@ -34,7 +39,7 @@ export class RegisterComponent implements OnInit {
 
     this.authenticationService.register(this.registerForm.value)
       .subscribe((resp) => {
-
+        this.router.navigateByUrl('');
       }, (error) => {
         console.error(error.message);
       });
