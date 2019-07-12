@@ -25,14 +25,14 @@ const register = (req, res) => {
     }); 
   };
   
-  const login = (req, res) => {
+const login = (req, res) => {
     if (!req.body.email || !req.body.password) {
         return res.status(400)
                    .json({"message": "All fields required"});
     }
     passport.authenticate('local', (err, user, info) => {
         if (err) {
-            
+
             return res.status(404)
                       .json(err);
         }
