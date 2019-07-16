@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { User } from './user';
 import { BROWSER_STORAGE } from './storage';
 import { AuthResponse } from './authresponse';
+import { EventItem } from './event';
 
 const PROTOCOL = 'http';
 const PORT = 3000;
@@ -50,6 +51,42 @@ export class MeanDataService {
     const url = `${this.apiBaseUrl}/register`;
     return this.http
             .post<AuthResponse>(url, user)
+            .pipe(
+              catchError(this.handleError)
+            );
+  }
+
+  public getEventsList(): Observable<EventItem[] | object> {
+    const url = `${this.apiBaseUrl}/events`;
+    return this.http
+            .get<EventItem[]>(url)
+            .pipe(
+              catchError(this.handleError)
+            );
+  }
+
+  public createEvent(event: EventItem): Observable<EventItem | object> {
+    const url = `${this.apiBaseUrl}/events`;
+    return this.http
+            .post<EventItem>(url, event)
+            .pipe(
+              catchError(this.handleError)
+            );
+  }
+
+  public updateEvent(event: EventItem): Observable<EventItem | object> {
+    const url = `${this.apiBaseUrl}/events${event.id}`;
+    return this.http
+            .put<EventItem>(url, event)
+            .pipe(
+              catchError(this.handleError)
+            );
+  }
+
+  public deleteEvent(event: EventItem): Observable<object> {
+    const url = `${this.apiBaseUrl}/events${event.id}`;
+    return this.http
+            .delete(url)
             .pipe(
               catchError(this.handleError)
             );

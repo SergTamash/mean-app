@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from '../authentication/login/login.component';
 import { RegisterComponent } from '../authentication/register/register.component';
 import { HomepageComponent } from '../homepage/homepage.component';
+import { EventFormComponent } from '../event/event-form/event-form.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,11 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
-  }
+  },
+  {
+    path: 'event',
+    component: EventFormComponent
+  },
 ];
 
 @NgModule({

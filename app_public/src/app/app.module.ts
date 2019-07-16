@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModulesCompilationModule } from './common/modules-compilation.module';
 import { ModelModule } from './model/model.module';
 import { HomepageComponent } from './homepage/homepage.component';
+import { EventModule } from './event/event.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { HomepageComponent } from './homepage/homepage.component';
     AuthModule,
     BrowserAnimationsModule,
     ModulesCompilationModule,
-    ModelModule
+    ModelModule,
+    EventModule
   ],
   providers: [],
   bootstrap: [AppComponent]
