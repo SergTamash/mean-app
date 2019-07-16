@@ -25,8 +25,8 @@ router
 router
   .route('/events/:eventId')
   .get(ctrlEvents.getEventById)
-  .put(auth, ctrlEvents.updateEvent)
-  .delete(auth, ctrlEvents.deleteEvent);
+  .put(ctrlEvents.updateEvent)
+  .delete(ctrlEvents.deleteEvent);
 
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);

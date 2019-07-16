@@ -2,7 +2,23 @@ const mongoose = require('mongoose');
 const Event = mongoose.model('Event');
 
 const getEventsList = (req, res) => {
-    // TODO add events list
+    Event
+      .find()
+      .exec((err, events) => {
+        if (!events) {
+          return res
+            .status(404)
+            .json({"message": "event not found"});
+        } else if (err) {
+          return res
+            .status(404)
+            .json(err);
+        } else {
+          return res
+            .status(200)
+            .json(events);
+        }
+      });
 }
 
 const createEvent = (req, res) => {
@@ -11,8 +27,6 @@ const createEvent = (req, res) => {
                   .json({"message": "All fields required"});
     }
     const {author, name, address, date, members} = req.body;
-
-    // TODO Edit creation
 
     const event = new Event();
     event.setAuthor(author);
@@ -31,7 +45,7 @@ const createEvent = (req, res) => {
               .status(200)
               .json({event});
           }
-    })
+    });
 }
 
 const getEventById = (req, res) => {
@@ -86,7 +100,23 @@ const updateEvent = (req, res) => {
                 .status(400)
                 .json(err);
             }
-            // TODO Add event update
+            const {name, address, date, members} = req.body;
+            event.name = name;
+            event.address = address;
+            event.date = date;
+            event.setMembers(members);
+
+            event.save((err) => {
+                if (err) {
+                    res
+                    .status(400)
+                    .json(err);
+                } else {
+                    res
+                    .status(200)
+                    .json({event});
+                }
+            });
         });
 
 }
