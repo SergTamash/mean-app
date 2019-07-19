@@ -5,7 +5,7 @@ const memberSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    id: {
+    email: {
         type: String,
         required: true
     }
@@ -43,7 +43,7 @@ eventSchema.methods.setMembers = function (members) {
     members.forEach(member => {
         let newMember = {
             name: member.name,
-            id: member.id
+            email: member.email
         };
         this.members.push(newMember);
     });    

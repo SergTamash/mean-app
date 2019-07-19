@@ -1,5 +1,30 @@
 const mongoose = require('mongoose');
 const Event = mongoose.model('Event');
+const User = mongoose.model('User');
+
+const getAuthor = (req, res, callback) => {
+    if (req.payload && req.payload.email) {
+      User
+        .findOne({ email : req.payload.email })
+        .exec((err, user) => {
+          if (!user) {
+            return res
+              .status(404)
+              .json({"message": "User not found"});
+          } else if (err) {
+            console.log(err);
+            return res
+              .status(404)
+              .json(err);
+          }
+          callback(req, res, user);
+        });
+    } else {
+      return res
+        .status(404)
+        .json({"message": "User not found"});
+    }
+};
 
 const getEventsList = (req, res) => {
     Event
@@ -22,30 +47,34 @@ const getEventsList = (req, res) => {
 }
 
 const createEvent = (req, res) => {
-    if (!req.body.author || !req.body.name || !req.body.address) {
+    if (!req.body.name || !req.body.address) {
         return res.status(400)
-                  .json({"message": "All fields required"});
+                  .json({"message": "The event name and address are required"});
     }
-    const {author, name, address, date, members} = req.body;
+    getAuthor(req, res, (req, res, author) => {
+        const {name, address, date, members} = req.body;
 
-    const event = new Event();
-    event.setAuthor(author);
-    event.name = name;
-    event.address = address;
-    event.date = date;
-    event.setMembers(members);
+        const event = new Event();
+        event.author = author;
+        event.name = name;
+        event.address = address;
+        // event.date = date;
+        event.setMembers(members);
 
-    event.save((err) => {
-        if (err) {
-            res
-              .status(400)
-              .json(err);
-          } else {
-            res
-              .status(200)
-              .json({event});
-          }
-    });
+        event.save((err) => {
+            if (err) {
+                res
+                .status(400)
+                .json(err);
+            } else {
+                res
+                .status(200)
+                .json({event});
+            }
+        });
+    }) 
+    
+    
 }
 
 const getEventById = (req, res) => {

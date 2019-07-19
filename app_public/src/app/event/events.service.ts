@@ -8,15 +8,15 @@ export class EventsService {
 
   constructor(private meanDataService: MeanDataService) { }
 
-  public getEventsList(): Observable<EventItem[] | object> {
+  public getEventsList(): Observable<EventItem[]> {
     return this.meanDataService.getEventsList();
   }
 
-  public createEvent(event: EventItem): Observable<EventItem | object> {
+  public createEvent(event: EventItem): Observable<EventItem> {
     return this.meanDataService.createEvent(event);
   }
 
-  public updateEvent(event: EventItem): Observable<EventItem | object> {
+  public updateEvent(event: EventItem): Observable<EventItem> {
     return this.meanDataService.updateEvent(event);
   }
 }

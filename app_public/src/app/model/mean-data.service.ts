@@ -21,6 +21,12 @@ export class MeanDataService {
   }
 
   private apiBaseUrl: string;
+  private get httpOptions() {
+    return { headers: new HttpHeaders({
+              'Authorization': `Bearer ${this.storage.getItem('mean-token')}`
+              })
+            };
+  }  
 
   public testRequest(): Observable<any> {
     const url = `${this.apiBaseUrl}`;
@@ -33,12 +39,12 @@ export class MeanDataService {
     return Promise.reject(error.message || error);
   }
 
-  private handleError(error: HttpErrorResponse): Observable<object> {
+  private handleError(error: HttpErrorResponse) {
     console.error('Something has gone wrong', error);
     return throwError(error.error || error);
   }
 
-  public login(user: User): Observable<AuthResponse | object> {
+  public login(user: User): Observable<AuthResponse> {
     const url = `${this.apiBaseUrl}/login`;
     return this.http
             .post<AuthResponse>(url, user)
@@ -47,7 +53,7 @@ export class MeanDataService {
             );
   }
 
-  public register(user: User): Observable<AuthResponse | object> {
+  public register(user: User): Observable<AuthResponse> {
     const url = `${this.apiBaseUrl}/register`;
     return this.http
             .post<AuthResponse>(url, user)
@@ -56,7 +62,7 @@ export class MeanDataService {
             );
   }
 
-  public getEventsList(): Observable<EventItem[] | object> {
+  public getEventsList(): Observable<EventItem[]> {
     const url = `${this.apiBaseUrl}/events`;
     return this.http
             .get<EventItem[]>(url)
@@ -65,16 +71,16 @@ export class MeanDataService {
             );
   }
 
-  public createEvent(event: EventItem): Observable<EventItem | object> {
+  public createEvent(event: EventItem): Observable<EventItem> {
     const url = `${this.apiBaseUrl}/events`;
     return this.http
-            .post<EventItem>(url, event)
+            .post<EventItem>(url, event, this.httpOptions)
             .pipe(
               catchError(this.handleError)
             );
   }
 
-  public updateEvent(event: EventItem): Observable<EventItem | object> {
+  public updateEvent(event: EventItem): Observable<EventItem> {
     const url = `${this.apiBaseUrl}/events${event.id}`;
     return this.http
             .put<EventItem>(url, event)

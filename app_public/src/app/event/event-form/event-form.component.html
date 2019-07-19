@@ -2,3 +2,43 @@
   event-form works!
 </p>
 <button (click)="createEvent()">create new event</button>
+<div class="container">   
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <h1>Create a new event</h1>            
+            <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+              <mat-form-field>
+                <input matInput placeholder="Enter event name" formControlName="name" required>
+                <mat-error *ngIf="eventForm.controls['name'].errors?.required">this field required</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field>
+                  <input matInput placeholder="Enter event address" formControlName="address">
+                  <mat-error *ngIf="eventForm.controls['address'].errors?.required">this field required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                  <textarea matInput placeholder="Enter event description" formControlName="description"></textarea>
+              </mat-form-field>
+              
+              <div formArrayName="members">
+                  <h3>Members</h3> <button (click)="addMember()">Add Member</button>
+                
+                  <div *ngFor="let member of members.controls; let i=index" [formGroupName]="i">
+                      <h4>Member {{ i }}</h4>
+                      <mat-form-field>
+                          <input matInput placeholder="Enter member name" formControlName="name">
+                      </mat-form-field>
+                      <mat-form-field>
+                          <input matInput placeholder="Enter member email" formControlName="email">
+                      </mat-form-field>
+                  </div>                  
+              </div>
+            
+              <button type="submit" role="button" class="btn btn-primary" [disabled]="eventForm.invalid">Create!</button>
+            </form>
+        </div> 
+        <div class="col"></div>
+    </div>      
+  </div>

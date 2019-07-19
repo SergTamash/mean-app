@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 router
   .route('/events')
   .get(ctrlEvents.getEventsList)
-  .post(ctrlEvents.createEvent);
+  .post(auth, ctrlEvents.createEvent);
 
 router
   .route('/events/:eventId')
